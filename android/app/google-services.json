@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "297804041462",
+    "project_id": "hackoverflow-c4792",
+    "storage_bucket": "hackoverflow-c4792.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297804041462:android:44f1be3262c762709c30d7",
+        "android_client_info": {
+          "package_name": "com.example.nyayak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFKuO9gZUKubgmyOMNq8ur-7lQ5XLRMv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
