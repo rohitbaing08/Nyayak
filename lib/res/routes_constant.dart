@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:nyayak/view/screens/home_view.dart';
+import 'package:nyayak/view/screens/splash_view.dart';
 
 GoRouter router = GoRouter(routes: [
   GoRoute(
     name: 'home',
     path: '/',
-    builder: (context, state) => const HomeView(),
+    builder: (context, state) => const SplashView(),
   )
 ]);
