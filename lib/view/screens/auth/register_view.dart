@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:nyayak/model/user_model.dart';
 import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
@@ -99,18 +101,29 @@ class RegisterView extends StatelessWidget {
                 height: 35,
               ),
               Button(
-                  ontap: () {
-                    Map<String, String> dataToSave = {
-                      'name': nameController.text,
-                      'email': emailController.text,
-                      'contact': contactController.text,
-                      'gender': genderController.text,
-                      'DOB': DOBController.text,
-                      'password': passwordController.text,
-                    };
-                    FirebaseFirestore.instance
-                        .collection('user')
-                        .add(dataToSave);
+                  ontap: () async {
+                    try {
+                      await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text)
+                          .then((value) {
+                        UserModel dataToSave = UserModel(
+                            id: value.user!.uid,
+                            name: nameController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            gender: genderController.text,
+                            DOB: DOBController.text,
+                            contact: contactController.text);
+                        FirebaseFirestore.instance
+                            .collection('user')
+                            .add(dataToSave.toJson())
+                            .then((value) => router.go('/'));
+                      });
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   text: "Sign Up"),
               const SizedBox(
@@ -130,7 +143,7 @@ class RegisterView extends StatelessWidget {
                           text: 'Log In',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              router.go('login');
+                              router.go('/login');
                             },
                           style: TextStyle(
                               fontSize: 18, color: LightAppColors().seedColor),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
@@ -10,8 +11,9 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController EmailController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       backgroundColor: LightAppColors().backgroundColor,
       body: Padding(
@@ -34,7 +36,7 @@ class LoginView extends StatelessWidget {
                 height: 80,
               ),
               CustomTextfield(
-                controller: EmailController,
+                controller: emailController,
                 label: 'Email',
                 hintText: 'Enter email',
                 keyboardType: TextInputType.emailAddress,
@@ -50,7 +52,24 @@ class LoginView extends StatelessWidget {
               const SizedBox(
                 height: 35,
               ),
-              Button(ontap: () {}, text: "Log In"),
+              Button(
+                  ontap: () async {
+                    try {
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passwordController.text);
+                      router.go('/');
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('No user found for this email.');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password provided for this email.');
+                      } else {
+                        print(e.message);
+                      }
+                    }
+                  },
+                  text: "Log In"),
               const SizedBox(
                 height: 10,
               ),
