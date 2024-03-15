@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:nyayak/firebase_options.dart';
 import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/res/theme/theme_constants.dart';
+import 'package:nyayak/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +19,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.light,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: ((context) => HomeViewModel()))
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: ThemeMode.light,
+      ),
     );
   }
 }

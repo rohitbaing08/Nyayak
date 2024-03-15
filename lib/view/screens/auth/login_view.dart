@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
 import 'package:nyayak/view/components/textfield.dart';
 
@@ -9,8 +11,9 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController EmailController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       backgroundColor: LightAppColors().backgroundColor,
       body: Padding(
@@ -33,7 +36,7 @@ class LoginView extends StatelessWidget {
                 height: 80,
               ),
               CustomTextfield(
-                controller: EmailController,
+                controller: emailController,
                 label: 'Email',
                 hintText: 'Enter email',
                 keyboardType: TextInputType.emailAddress,
@@ -49,32 +52,24 @@ class LoginView extends StatelessWidget {
               const SizedBox(
                 height: 35,
               ),
-              Button(ontap: () {}, text: "Log In"),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Or continue with',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color.fromRGBO(124, 124, 124, 1),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/Icons/Google.png'),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              Button(
+                  ontap: () async {
+                    try {
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passwordController.text);
+                      router.go('/');
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('No user found for this email.');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password provided for this email.');
+                      } else {
+                        print(e.message);
+                      }
+                    }
+                  },
+                  text: "Log In"),
               const SizedBox(
                 height: 10,
               ),
@@ -90,7 +85,10 @@ class LoginView extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: 'Sign Up',
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              router.go('/initial-auth');
+                            },
                           style: TextStyle(
                               fontSize: 18, color: LightAppColors().seedColor),
                         )
