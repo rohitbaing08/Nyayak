@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
 import 'package:nyayak/view/components/textfield.dart';
 
@@ -46,31 +47,6 @@ class LoginView extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                'Or continue with',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color.fromRGBO(124, 124, 124, 1),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/Icons/Google.png'),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               SizedBox(
                 width: double.infinity,
                 child: RichText(
@@ -83,7 +59,10 @@ class LoginView extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: 'Sign Up',
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              router.go('/initial-auth');
+                            },
                           style: TextStyle(
                               fontSize: 18, color: LightAppColors().seedColor),
                         )
