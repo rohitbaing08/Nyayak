@@ -8,10 +8,15 @@ import 'package:nyayak/view/screens/community/community_details_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
 import 'package:nyayak/view/screens/splash_view.dart';
 
-GoRouter router = GoRouter(routes: [
+GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
   GoRoute(
     name: 'bottom-nav',
     path: '/',
+    builder: (context, state) => const BottomNavBar(),
+  ),
+  GoRoute(
+    name: 'home',
+    path: '/home',
     builder: (context, state) => const BottomNavBar(),
   ),
   GoRoute(
