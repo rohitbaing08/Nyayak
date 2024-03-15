@@ -7,6 +7,7 @@ import 'package:nyayak/view/screens/lawyar_profile.dart';
 import 'package:nyayak/view/screens/splash_view.dart';
 import 'package:nyayak/view/screens/lawyar_profile.dart';
 
+
 GoRouter router = GoRouter(routes: [
   GoRoute(
     name: 'bottom-nav',
