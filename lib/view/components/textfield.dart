@@ -4,11 +4,13 @@ import 'package:nyayak/res/colors.dart';
 class CustomTextfield extends StatelessWidget {
   final TextEditingController controller;
   TextInputType keyboardType;
+  bool obsecureText;
   final String label;
   final String hintText;
   CustomTextfield(
       {super.key,
       this.keyboardType = TextInputType.text,
+      this.obsecureText = false,
       required this.label,
       required this.hintText,
       required this.controller});
@@ -16,6 +18,7 @@ class CustomTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obsecureText,
       keyboardType: keyboardType,
       controller: controller,
       decoration: InputDecoration(

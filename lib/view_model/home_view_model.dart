@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/model/lawyer_model.dart';
+import 'package:nyayak/res/routes_constant.dart';
 
 class HomeViewModel extends ChangeNotifier {
   bool flag = true;
@@ -53,6 +54,16 @@ class HomeViewModel extends ChangeNotifier {
       final userDoc = lawyerdocSnapshot.docs.first;
       userData = userDoc.data(); // Contains user data
       return userData;
+    }
+  }
+
+  void signOut(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      router.go('/initial-auth');
+    } catch (e) {
+      print('Error signing out: $e');
+      // Show an error message or handle the error as needed
     }
   }
 }

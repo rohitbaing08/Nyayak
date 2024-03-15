@@ -5,11 +5,9 @@ import 'package:nyayak/view/screens/auth/provider_form_view.dart';
 import 'package:nyayak/view/screens/auth/register_view.dart';
 import 'package:nyayak/view/screens/bottom_nav.dart';
 import 'package:nyayak/view/screens/community/add_post_view.dart';
-import 'package:nyayak/view/screens/community/community_details_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
 import 'package:nyayak/view/screens/lawyar_profile.dart';
 import 'package:nyayak/view/screens/splash_view.dart';
-
 
 GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
   GoRoute(
@@ -53,11 +51,6 @@ GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
     name: 'initial-auth',
     path: '/initial-auth',
     builder: (context, state) => const InitialAuthView(),
-  ),
-  GoRoute(
-    name: 'community-details',
-    path: '/community-details',
-    builder: (context, state) => const CommunityDetails(),
   ),
   GoRoute(
     name: 'community-posts',

@@ -104,6 +104,7 @@ class _RegisterViewState extends State<RegisterView> {
                 height: 15,
               ),
               CustomTextfield(
+                obsecureText: true,
                 label: 'Password',
                 hintText: 'Enter password',
                 controller: passwordController,

@@ -49,6 +49,7 @@ class LoginView extends StatelessWidget {
                 height: 15,
               ),
               CustomTextfield(
+                obsecureText: true,
                 label: 'Password',
                 hintText: 'Enter password',
                 controller: passwordController,

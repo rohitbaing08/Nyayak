@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,23 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (context, value, child) => Scaffold(
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: IconButton(
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    router.go('/initial-auth');
+                  },
+                  icon: const Icon(
+                    Icons.logout_outlined,
+                    color: Colors.black,
+                    size: 40,
+                  )),
+            )
+          ],
+        ),
         body: FutureBuilder(
           future: value.fetchUserDetails(
             FirebaseAuth.instance.currentUser!.email,
@@ -31,7 +49,7 @@ class _ProfileViewState extends State<ProfileView> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   children: [
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     Stack(
                       children: [
                         Container(
@@ -43,7 +61,7 @@ class _ProfileViewState extends State<ProfileView> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(150),
                             child: Image.asset(
-                              'assets/kapil.png',
+                              'assets/Images/profilepic.jpeg',
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -225,7 +243,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

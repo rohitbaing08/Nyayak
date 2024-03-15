@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nyayak/model/community_post_model.dart';
 import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
+import 'package:nyayak/view/components/dropdown.dart';
 import 'package:nyayak/view/components/textfield.dart';
-import 'package:nyayak/model/community_post_model.dart';
 
 class AddCommunityPost extends StatelessWidget {
   const AddCommunityPost({super.key});
@@ -12,7 +13,7 @@ class AddCommunityPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController titleController = TextEditingController();
-    TextEditingController categoryController = TextEditingController();
+    String? category;
     TextEditingController descriptionController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -48,11 +49,19 @@ class AddCommunityPost extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              CustomTextfield(
-                label: 'Category',
-                hintText: '',
-                controller: categoryController,
-              ),
+              CustomDropdown(
+                  label: 'Category',
+                  ontap: (value) {
+                    category = value;
+                  },
+                  selected: category,
+                  items: const [
+                    'Property',
+                    'Criminal',
+                    'Domestic',
+                    'Business',
+                    'Contract Voilation',
+                  ]),
               const SizedBox(
                 height: 15,
               ),
@@ -80,7 +89,7 @@ class AddCommunityPost extends StatelessWidget {
                   ontap: () {
                     CommunityPostModel dataToSave = CommunityPostModel(
                       subject: titleController.text,
-                      category: categoryController.text,
+                      category: category!,
                       description: descriptionController.text,
                     );
                     FirebaseFirestore.instance

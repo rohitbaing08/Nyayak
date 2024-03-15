@@ -73,11 +73,14 @@ class _SearchViewState extends State<SearchView> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else {
+                      value.mainList = snapshot.data;
                       return ListView.builder(
                         itemCount: value.displayList.length,
                         itemBuilder: (context, index) {
                           return SearchCard(
-                              name: value.displayList[index].name);
+                            name: value.displayList[index].name,
+                            provider: value.displayList[index].provider,
+                          );
                         },
                       );
                     }
