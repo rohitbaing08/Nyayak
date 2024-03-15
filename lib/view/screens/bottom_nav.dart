@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyayak/view/screens/auth/login_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
 import 'package:nyayak/view/screens/home_view.dart';
+import 'package:nyayak/view/screens/lawyar_profile.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});

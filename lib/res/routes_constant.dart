@@ -7,6 +7,7 @@ import 'package:nyayak/view/screens/community/add_post_view.dart';
 import 'package:nyayak/view/screens/community/community_details_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
 import 'package:nyayak/view/screens/splash_view.dart';
+import 'package:nyayak/view/screens/lawyar_profile.dart';
 
 GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
   GoRoute(
@@ -33,6 +34,11 @@ GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
     name: 'register',
     path: '/register',
     builder: (context, state) => const RegisterView(),
+  ),
+  GoRoute(
+    name: 'lawyerProfile',
+    path: '/lawyerProfile',
+    builder: (context, state) => const LawyerProfile(),
   ),
   GoRoute(
     name: 'initial-auth',
