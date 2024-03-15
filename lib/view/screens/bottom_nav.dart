@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyayak/view/screens/auth/login_view.dart';
 import 'package:nyayak/view/screens/auth/register_view.dart';
 import 'package:nyayak/view/screens/home_view.dart';
+import 'package:nyayak/view/screens/lawyar_profile.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -12,7 +13,11 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
-  final screens = [const HomeView(), const LoginView(), const RegisterView()];
+  final screens = [
+    const LawyerProfile(),
+    const LoginView(),
+    const RegisterView()
+  ];
 
   @override
   Widget build(BuildContext context) {
