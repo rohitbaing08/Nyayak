@@ -31,7 +31,7 @@ class InitialAuthView extends StatelessWidget {
               ),
               Button(
                   ontap: () {
-                    router.go('/register');
+                    router.push('/register/lawyer');
                   },
                   text: 'Legal service provider'),
               const SizedBox(
@@ -39,7 +39,7 @@ class InitialAuthView extends StatelessWidget {
               ),
               Button(
                   ontap: () {
-                    router.go('/register');
+                    router.push('/register/client');
                   },
                   text: 'Client'),
               const SizedBox(
@@ -57,7 +57,10 @@ class InitialAuthView extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: 'Log In',
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              router.go('/login');
+                            },
                           style: TextStyle(
                               fontSize: 18, color: LightAppColors().seedColor),
                         )

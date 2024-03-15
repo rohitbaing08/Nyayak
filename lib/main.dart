@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nyayak/firebase_options.dart';
 import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/res/theme/theme_constants.dart';
+import 'package:nyayak/view_model/auth_viewmodel.dart';
 import 'package:nyayak/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ((context) => HomeViewModel()))
+        ChangeNotifierProvider(create: ((context) => HomeViewModel())),
+        ChangeNotifierProvider(create: ((context) => AuthViewModel()))
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

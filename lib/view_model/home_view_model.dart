@@ -12,14 +12,21 @@ class HomeViewModel extends ChangeNotifier {
   Future<dynamic> fetchUserDetails(String? email) async {
     final CollectionReference users =
         FirebaseFirestore.instance.collection('user');
-    final docSnapshot = await users.where('email', isEqualTo: email).get();
+    final usersdocSnapshot = await users.where('email', isEqualTo: email).get();
 
-    if (docSnapshot.docs.isNotEmpty) {
-      final userDoc = docSnapshot.docs.first;
+    final CollectionReference lawyers =
+        FirebaseFirestore.instance.collection('lawyer');
+    final lawyerdocSnapshot =
+        await lawyers.where('email', isEqualTo: email).get();
+
+    if (usersdocSnapshot.docs.isNotEmpty) {
+      final userDoc = usersdocSnapshot.docs.first;
       userData = userDoc.data(); // Contains user data
       return userData;
     } else {
-      print('No user found with this email in Firestore.');
+      final userDoc = lawyerdocSnapshot.docs.first;
+      userData = userDoc.data(); // Contains user data
+      return userData;
     }
   }
 }
