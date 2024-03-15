@@ -7,7 +7,7 @@ import 'package:nyayak/view/screens/community/add_post_view.dart';
 import 'package:nyayak/view/screens/community/community_details_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
 import 'package:nyayak/view/screens/splash_view.dart';
-// import 'package:nyayak/view/screens/lawyar_profile.dart';
+import 'package:nyayak/view/screens/lawyar_profile.dart';
 
 
 GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
