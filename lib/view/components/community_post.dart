@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/res/routes_constant.dart';
 
 class CommunityPost extends StatelessWidget {
   const CommunityPost({super.key});
@@ -7,8 +8,8 @@ class CommunityPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
       height: 240,
-      width: 369,
       decoration: BoxDecoration(
         // Background color of the container
         borderRadius: BorderRadius.circular(
@@ -36,10 +37,10 @@ class CommunityPost extends StatelessWidget {
                       width: 1, // Width of the border
                     ),
                   ),
-                  child: Icon(Icons.home_filled),
+                  child: const Icon(Icons.home_filled),
                 ),
               ),
-              Text(
+              const Text(
                 'Property Case',
                 style: TextStyle(
                   color: Colors.black,
@@ -48,8 +49,8 @@ class CommunityPost extends StatelessWidget {
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text(
               'For months, I have been dealing with terrible living conditions in my apartment building. Leaky roofs cause constant dampness, faulty electrical wiring poses a safety hazard, and the elevators malfunction frequently. I didnt know where to turn or what my rights were as a tenant. Thankfully, I discovered the Nyayak app and...',
               style: TextStyle(
@@ -57,25 +58,26 @@ class CommunityPost extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 2),
-          Container(
-            height: 40,
-            width: 120,
-            decoration: BoxDecoration(
-              color: Color(0xFF3B495A),
-              // Background color of the container
-              borderRadius: BorderRadius.circular(
-                  20), // Radius value half of the width or height for a perfect circle
-              border: Border.all(
-                color: Colors.black, // Color of the border
-                width: 1, // Width of the border
+          const SizedBox(height: 2),
+          InkWell(
+            onTap: () {
+              router.push('/community-details');
+            },
+            child: Container(
+              height: 40,
+              width: 120,
+              decoration: BoxDecoration(
+                color: LightAppColors().seedColor,
+                // Background color of the container
+                borderRadius: BorderRadius.circular(
+                    20), // Radius value half of the width or height for a perfect circle
               ),
+              child: const Center(
+                  child: Text(
+                'Read more',
+                style: TextStyle(color: Colors.white),
+              )),
             ),
-            child: Center(
-                child: Text(
-              'Read more',
-              style: TextStyle(color: Colors.white),
-            )),
           ),
         ],
       ),

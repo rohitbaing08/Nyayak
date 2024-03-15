@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyayak/view/components/community_post.dart';
 
 class CommunityPostView extends StatelessWidget {
   const CommunityPostView({super.key});
@@ -12,11 +13,11 @@ class CommunityPostView extends StatelessWidget {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
-            children: [],
+            children: [CommunityPost(), CommunityPost()],
           ),
         ),
       ),
