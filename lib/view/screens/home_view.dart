@@ -41,27 +41,6 @@ class _HomeViewState extends State<HomeView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.search,
-                            color: LightAppColors().seedColor,
-                          ),
-                          hintText: 'Search',
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(40.0)),
-                            borderSide: BorderSide(
-                                color: LightAppColors().seedColor, width: 0.5),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(
-                                color: LightAppColors().seedColor, width: 0.5),
-                          ),
-                        ),
-                      ),
                       const SizedBox(
                         height: 20,
                       ),

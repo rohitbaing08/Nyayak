@@ -1,13 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nyayak/model/lawyer_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
   bool flag = true;
   late var userData;
   late User? currentUser;
-
+  List mainList = [];
+  List displayList = [];
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  editList(String val) {
+    displayList = mainList
+        .where((ele) =>
+            ele.name.toString().toLowerCase().contains(val.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
+
+  Future<dynamic> fetchLawyers() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('lawyer').get();
+      List<LawyerModel> lawyers = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return LawyerModel.fromJson(data);
+      }).toList();
+
+      return lawyers;
+    } catch (e) {
+      print('Error fetching lawyers: $e');
+      return []; // Return an empty list if there's an error
+    }
+  }
 
   Future<dynamic> fetchUserDetails(String? email) async {
     final CollectionReference users =
