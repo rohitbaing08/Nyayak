@@ -29,9 +29,9 @@ class _HomeViewState extends State<HomeView> {
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  "Hey " + user['name'],
+                  "Hey " + user['name'] + '👋',
                   style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
+                      fontSize: 26, fontWeight: FontWeight.bold),
                 ),
               ),
               body: SingleChildScrollView(
