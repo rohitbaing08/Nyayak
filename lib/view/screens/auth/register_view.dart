@@ -1,10 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
 import 'package:nyayak/view/components/textfield.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -111,20 +111,11 @@ class RegisterView extends StatelessWidget {
                     FirebaseFirestore.instance
                         .collection('user')
                         .add(dataToSave);
-                        print(nameController.text);
                   },
-                  
                   text: "Sign Up"),
               const SizedBox(
                 height: 10,
               ),
-              // ElevatedButton(
-              //   onPressed: () {},
-              //   child: null,
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
               SizedBox(
                 width: double.infinity,
                 child: RichText(
