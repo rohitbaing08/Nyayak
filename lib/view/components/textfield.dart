@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:nyayak/res/colors.dart';
 
 class CustomTextfield extends StatelessWidget {
+  final TextEditingController controller;
   TextInputType keyboardType;
   final String label;
   final String hintText;
@@ -9,12 +11,14 @@ class CustomTextfield extends StatelessWidget {
       {super.key,
       this.keyboardType = TextInputType.text,
       required this.label,
-      required this.hintText});
+      required this.hintText,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyboardType,
+      controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
         label: Text(

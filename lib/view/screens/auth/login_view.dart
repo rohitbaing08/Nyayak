@@ -10,6 +10,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController EmailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Scaffold(
       backgroundColor: LightAppColors().backgroundColor,
       body: Padding(
@@ -32,6 +34,7 @@ class LoginView extends StatelessWidget {
                 height: 80,
               ),
               CustomTextfield(
+                controller: EmailController,
                 label: 'Email',
                 hintText: 'Enter email',
                 keyboardType: TextInputType.emailAddress,
@@ -39,7 +42,11 @@ class LoginView extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              CustomTextfield(label: 'Password', hintText: 'Enter password'),
+              CustomTextfield(
+                label: 'Password',
+                hintText: 'Enter password',
+                controller: passwordController,
+              ),
               const SizedBox(
                 height: 35,
               ),
