@@ -16,7 +16,7 @@ class CommunityPostView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('community')
@@ -24,34 +24,31 @@ class CommunityPostView extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (snapshot.hasData) {
-                    print("object");
-                    print("${snapshot.data!.docs}");
                     return SizedBox(
                       width: double.infinity,
-                      height: 600,
+                      height: MediaQuery.of(context).size.height * .83,
                       child: ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             return CommunityPost(
-                                category: snapshot.data!.docs[index]
-                                    ['category'],
-                                description: snapshot.data!.docs[index]
-                                    ['description']);
+                              category: snapshot.data!.docs[index]['category'],
+                              description: snapshot.data!.docs[index]
+                                  ['description'],
+                              title: snapshot.data!.docs[index]['subject'],
+                            );
                           }),
                     );
                   } else if (snapshot.hasError) {
-                    print("object2");
                     return Center(
-                      child: Text("${snapshot.hasError.toString()}"),
+                      child: Text(snapshot.hasError.toString()),
                     );
                   } else {
-                    print("object3");
-                    return Center(
+                    return const Center(
                       child: Text("No Data Found"),
                     );
                   }
                 } else {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }

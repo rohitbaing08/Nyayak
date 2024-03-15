@@ -1,11 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/res/routes_constant.dart';
 
 class CommunityDetails extends StatelessWidget {
-  const CommunityDetails({super.key});
+  final String category;
+  final String description;
+  final String title;
+  const CommunityDetails(
+      {super.key,
+      required this.category,
+      required this.description,
+      required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -35,60 +41,27 @@ class CommunityDetails extends StatelessWidget {
                 color: Colors.white),
             child: Column(
               children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.black,
+                Text(
+                  category,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                  ),
                 ),
-                // const Text(
-                //   'Property Case',
-                //   style: TextStyle(
-                //     color: Colors.black,
-                //     fontSize: 24,
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('community')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.active) {
-                        if (snapshot.hasData) {
-                          print("object");
-                          print("${snapshot.data!.docs}");
-                          return SizedBox(
-                            width: double.infinity,
-                            height: 600,
-                            child: ListView.builder(
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    subtitle: Text(
-                                        "${snapshot.data!.docs[index]["description"]}"),
-                                  );
-                                }),
-                          );
-                        } else if (snapshot.hasError) {
-                          print("object2");
-                          return Center(
-                            child: Text("${snapshot.hasError.toString()}"),
-                          );
-                        } else {
-                          print("object3");
-                          return Center(
-                            child: Text("No Data Found"),
-                          );
-                        }
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    }),
-                // const Text("${snapshot.data}"),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  title,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(description),
                 const SizedBox(
                   height: 20,
                 ),
