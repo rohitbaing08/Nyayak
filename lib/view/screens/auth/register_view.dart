@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
 import 'package:nyayak/view/components/textfield.dart';
 
@@ -90,7 +91,10 @@ class RegisterView extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: 'Log In',
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              router.go('login');
+                            },
                           style: TextStyle(
                               fontSize: 18, color: LightAppColors().seedColor),
                         )
