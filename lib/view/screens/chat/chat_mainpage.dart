@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/chat_card.dart';
 
 class ChatMainView extends StatelessWidget {
@@ -11,7 +12,7 @@ class ChatMainView extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              router.pop();
             },
             icon: const Icon(Icons.arrow_back_ios)),
         title: const Text(

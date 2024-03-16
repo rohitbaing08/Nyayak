@@ -13,7 +13,8 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  String searchedName = '';
+  String? locationFilter;
+  String? typeFilter;
   List displayList = [];
   @override
   Widget build(BuildContext context) {
@@ -53,19 +54,44 @@ class _SearchViewState extends State<SearchView> {
               const SizedBox(
                 height: 20,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SearchFilter(title: 'Location'),
-                  SearchFilter(title: 'Type'),
-                  SearchFilter(title: 'Experience'),
+                  SearchFilter(
+                    title: 'Location',
+                    selected: locationFilter,
+                    ontap: (val) {
+                      value.filterByLocation(val);
+                    },
+                    items: const [
+                      'Maharashtra',
+                      'Delhi',
+                      'Goa',
+                      'Karnataka',
+                      'Gujrat'
+                    ],
+                  ),
+                  SearchFilter(
+                    title: 'Type',
+                    selected: typeFilter,
+                    ontap: (val) {
+                      value.filterByType(val);
+                    },
+                    items: const [
+                      'Advocate',
+                      'Notary',
+                      'Mediator',
+                      'Document writer',
+                      'Arbitrator'
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(
                 height: 20,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * .75,
+                height: MediaQuery.of(context).size.height * .70,
                 width: double.infinity,
                 child: FutureBuilder(
                   future: value.fetchLawyers(),
@@ -74,14 +100,18 @@ class _SearchViewState extends State<SearchView> {
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       value.mainList = snapshot.data;
-                      return ListView.builder(
-                        itemCount: value.displayList.length,
-                        itemBuilder: (context, index) {
-                          return SearchCard(
-                            lawyer: value.displayList[index],
-                          );
-                        },
-                      );
+                      return value.displayList.isEmpty
+                          ? const Center(
+                              child: Text('Nothing to show'),
+                            )
+                          : ListView.builder(
+                              itemCount: value.displayList.length,
+                              itemBuilder: (context, index) {
+                                return SearchCard(
+                                  lawyer: value.displayList[index],
+                                );
+                              },
+                            );
                     }
                   },
                 ),
