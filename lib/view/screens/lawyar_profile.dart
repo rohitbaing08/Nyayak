@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/view/screens/chat/chat_view.dart';
 
 class LawyerProfile extends StatefulWidget {
   final String lawyerName;
@@ -30,6 +31,24 @@ class _LawyerProfileState extends State<LawyerProfile> {
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ChatView(username: widget.lawyerName)));
+                  },
+                  icon: const Icon(
+                    Icons.message_outlined,
+                    color: Colors.black,
+                    size: 40,
+                  )),
+            )
+          ],
           title: const Text(
             'Profile',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

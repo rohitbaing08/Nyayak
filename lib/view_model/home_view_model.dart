@@ -19,6 +19,22 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  filterByType(String val) {
+    displayList = mainList
+        .where((element) =>
+            element.provider.toString().toLowerCase() == val.toLowerCase())
+        .toList();
+    notifyListeners();
+  }
+
+  filterByLocation(String val) {
+    displayList = mainList
+        .where((element) =>
+            element.location.toString().toLowerCase() == val.toLowerCase())
+        .toList();
+    notifyListeners();
+  }
+
   Future<dynamic> fetchLawyers() async {
     try {
       QuerySnapshot querySnapshot =

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/res/routes_constant.dart';
+import 'package:nyayak/view/components/providers_types_cards.dart';
 import 'package:nyayak/view/components/top_lawyers_card.dart';
 import 'package:nyayak/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
@@ -38,8 +38,7 @@ class _HomeViewState extends State<HomeView> {
                   Padding(
                     padding: const EdgeInsets.only(right: 10.0),
                     child: IconButton(
-                        onPressed: () async {
-                          await FirebaseAuth.instance.signOut();
+                        onPressed: () {
                           router.push('/chat');
                         },
                         icon: const Icon(
@@ -71,46 +70,27 @@ class _HomeViewState extends State<HomeView> {
                         height: 200,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              height: 200,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors()
-                                      .secondaryColor
-                                      .withOpacity(.4)),
+                          children: const [
+                            ProviderTypeCard(
+                              image: 'assets/Images/advocate.png',
+                              title: 'Advocate',
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              height: 200,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors()
-                                      .secondaryColor
-                                      .withOpacity(.4)),
+                            ProviderTypeCard(
+                              image: 'assets/Images/notary.png',
+                              title: 'Notary',
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              height: 200,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors()
-                                      .secondaryColor
-                                      .withOpacity(.4)),
+                            ProviderTypeCard(
+                              image: 'assets/Images/mediator.png',
+                              title: 'Mediator',
                             ),
-                            Container(
-                              height: 200,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors()
-                                      .secondaryColor
-                                      .withOpacity(.4)),
-                            )
+                            ProviderTypeCard(
+                              image: 'assets/Images/document-writer.png',
+                              title: 'Document writer',
+                            ),
+                            ProviderTypeCard(
+                              image: 'assets/Images/arbiterator.png',
+                              title: 'Arbitrator',
+                            ),
                           ],
                         ),
                       ),
