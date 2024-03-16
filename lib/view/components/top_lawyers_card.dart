@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:nyayak/model/lawyer_model.dart';
 import 'package:nyayak/res/colors.dart';
-import 'package:nyayak/res/routes_constant.dart';
+import 'package:nyayak/view/screens/lawyar_profile.dart';
 
 class TopLawyerCard extends StatelessWidget {
   final String image;
-  final String name;
-  const TopLawyerCard({super.key, required this.image, required this.name});
+  final LawyerModel lawyer;
+  const TopLawyerCard({super.key, required this.image, required this.lawyer});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        router.push('/lawyer-profile');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => LawyerProfile(
+                    lawyerName: lawyer.name,
+                    experience: lawyer.experience,
+                    location: lawyer.location)));
       },
       child: Container(
         margin: const EdgeInsets.only(right: 10),
@@ -58,7 +65,7 @@ class TopLawyerCard extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(name)
+                    Text(lawyer.name)
                   ],
                 ),
               ),

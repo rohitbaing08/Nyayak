@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
-import 'package:nyayak/res/routes_constant.dart';
 
 class LawyerProfile extends StatefulWidget {
-  const LawyerProfile({super.key});
+  final String lawyerName;
+  final String experience;
+  final String location;
+  const LawyerProfile(
+      {super.key,
+      required this.lawyerName,
+      required this.experience,
+      required this.location});
 
   @override
   State<LawyerProfile> createState() => _LawyerProfileState();
@@ -20,7 +26,7 @@ class _LawyerProfileState extends State<LawyerProfile> {
           backgroundColor: Colors.transparent,
           leading: IconButton(
             onPressed: () {
-              router.pop();
+              Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
@@ -43,31 +49,31 @@ class _LawyerProfileState extends State<LawyerProfile> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(150),
                   child: Image.asset(
-                    'assets/Images/profilelawyer.png',
+                    'assets/Images/profilepic.jpeg',
                     fit: BoxFit.fill,
                   ),
                 ),
               ),
               const SizedBox(height: 7),
-              const Text(
-                'Kapil Sibal',
-                style: TextStyle(
+              Text(
+                widget.lawyerName,
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.location_on,
                     color: Colors.grey,
                     size: 19,
                   ),
-                  SizedBox(width: 2),
+                  const SizedBox(width: 2),
                   Text(
-                    'Delhi, India',
-                    style: TextStyle(
+                    widget.location,
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   )
@@ -94,11 +100,11 @@ class _LawyerProfileState extends State<LawyerProfile> {
                   ),
                 ),
                 height: 80,
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                       flex: 1,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -125,7 +131,7 @@ class _LawyerProfileState extends State<LawyerProfile> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(
+                          const Text(
                             'Experience',
                             style: TextStyle(
                                 fontSize: 15,
@@ -133,8 +139,8 @@ class _LawyerProfileState extends State<LawyerProfile> {
                                 letterSpacing: 0.4),
                           ),
                           Text(
-                            '12 Years',
-                            style: TextStyle(
+                            '${widget.experience} years',
+                            style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.4),
@@ -142,7 +148,7 @@ class _LawyerProfileState extends State<LawyerProfile> {
                         ],
                       ),
                     ),
-                    Flexible(
+                    const Flexible(
                       flex: 1,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -155,7 +161,7 @@ class _LawyerProfileState extends State<LawyerProfile> {
                                 letterSpacing: 0.4),
                           ),
                           Text(
-                            'Ratings',
+                            '',
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
