@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nyayak/view/screens/auth/login_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
 import 'package:nyayak/view/screens/home_view.dart';
-import 'package:nyayak/view/screens/lawyar_profile.dart';
+import 'package:nyayak/view/screens/search_view.dart';
+import 'package:nyayak/view/screens/user_profile_view.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -15,8 +15,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
   final screens = [
     const HomeView(),
+    const SearchView(),
     const CommunityPostView(),
-    const LoginView()
+    const ProfileView()
   ];
 
   @override
@@ -28,6 +29,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         currentIndex: _currentIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Community'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],

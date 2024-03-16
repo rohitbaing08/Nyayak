@@ -1,10 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
 import 'package:nyayak/view/components/textfield.dart';
+import 'package:nyayak/view_model/auth_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -17,10 +18,13 @@ class LoginView extends StatelessWidget {
     return Scaffold(
       backgroundColor: LightAppColors().backgroundColor,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 100),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const SizedBox(
+                height: 100,
+              ),
               const Text(
                 'NYAYAK',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -45,6 +49,7 @@ class LoginView extends StatelessWidget {
                 height: 15,
               ),
               CustomTextfield(
+                obsecureText: true,
                 label: 'Password',
                 hintText: 'Enter password',
                 controller: passwordController,
@@ -52,24 +57,29 @@ class LoginView extends StatelessWidget {
               const SizedBox(
                 height: 35,
               ),
-              Button(
-                  ontap: () async {
-                    try {
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text);
-                      router.go('/');
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'user-not-found') {
-                        print('No user found for this email.');
-                      } else if (e.code == 'wrong-password') {
-                        print('Wrong password provided for this email.');
-                      } else {
-                        print(e.message);
-                      }
-                    }
-                  },
-                  text: "Log In"),
+              Consumer<AuthViewModel>(
+                builder: (context, value, child) {
+                  return value.loginFlag
+                      ? Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(59, 73, 90, 1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.white,
+                          )),
+                        )
+                      : Button(
+                          ontap: () {
+                            value.login(
+                                emailController.text, passwordController.text);
+                          },
+                          text: "Log In");
+                },
+              ),
               const SizedBox(
                 height: 10,
               ),

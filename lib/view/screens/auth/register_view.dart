@@ -1,31 +1,40 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:nyayak/model/user_model.dart';
 import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/button.dart';
+import 'package:nyayak/view/components/dropdown.dart';
 import 'package:nyayak/view/components/textfield.dart';
+import 'package:nyayak/view_model/auth_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-class RegisterView extends StatelessWidget {
-  const RegisterView({super.key});
+class RegisterView extends StatefulWidget {
+  String? isClient;
+  RegisterView({super.key, this.isClient = 'client'});
 
+  @override
+  State<RegisterView> createState() => _RegisterViewState();
+}
+
+class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController contactController = TextEditingController();
-    TextEditingController genderController = TextEditingController();
+    String? gender;
     TextEditingController DOBController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return Scaffold(
       backgroundColor: LightAppColors().backgroundColor,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 70),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const SizedBox(
+                height: 70,
+              ),
               const Text(
                 'NYAYAK',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -71,11 +80,13 @@ class RegisterView extends StatelessWidget {
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10.0),
-                      child: CustomTextfield(
-                        label: "Gender",
-                        hintText: 'Enter gender',
-                        controller: genderController,
-                      ),
+                      child: CustomDropdown(
+                          label: 'Gender',
+                          ontap: (value) {
+                            gender = value;
+                          },
+                          selected: gender,
+                          items: const ['Male', 'Female', 'Others']),
                     ),
                   ),
                   Flexible(
@@ -93,6 +104,7 @@ class RegisterView extends StatelessWidget {
                 height: 15,
               ),
               CustomTextfield(
+                obsecureText: true,
                 label: 'Password',
                 hintText: 'Enter password',
                 controller: passwordController,
@@ -100,32 +112,49 @@ class RegisterView extends StatelessWidget {
               const SizedBox(
                 height: 35,
               ),
-              Button(
-                  ontap: () async {
-                    try {
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((value) {
-                        UserModel dataToSave = UserModel(
-                            id: value.user!.uid,
-                            name: nameController.text,
-                            email: emailController.text,
-                            password: passwordController.text,
-                            gender: genderController.text,
-                            DOB: DOBController.text,
-                            contact: contactController.text);
-                        FirebaseFirestore.instance
-                            .collection('user')
-                            .add(dataToSave.toJson())
-                            .then((value) => router.go('/'));
-                      });
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
-                  text: "Sign Up"),
+              Consumer<AuthViewModel>(
+                builder: (context, value, child) {
+                  return widget.isClient == 'client'
+                      ? value.registerClientFlag
+                          ? Container(
+                              height: 50,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(59, 73, 90, 1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.white,
+                              )),
+                            )
+                          : Button(
+                              ontap: () {
+                                value.registerClient(
+                                    emailController.text,
+                                    passwordController.text,
+                                    nameController.text,
+                                    gender!,
+                                    DOBController.text,
+                                    contactController.text);
+                              },
+                              text: "Sign Up")
+                      : Consumer<AuthViewModel>(
+                          builder: (context, value, child) => Button(
+                              ontap: () {
+                                value.intermidiateData(
+                                    emailController.text,
+                                    passwordController.text,
+                                    nameController.text,
+                                    gender!,
+                                    DOBController.text,
+                                    contactController.text);
+                                router.push('/lawyer-form');
+                              },
+                              text: "Next"),
+                        );
+                },
+              ),
               const SizedBox(
                 height: 10,
               ),
