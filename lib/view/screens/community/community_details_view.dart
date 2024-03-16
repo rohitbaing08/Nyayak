@@ -35,21 +35,6 @@ class CommunityDetails extends StatelessWidget {
                 color: Colors.white),
             child: Column(
               children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.black,
-                ),
-                // const Text(
-                //   'Property Case',
-                //   style: TextStyle(
-                //     color: Colors.black,
-                //     fontSize: 24,
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('community')
@@ -57,7 +42,6 @@ class CommunityDetails extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.active) {
                         if (snapshot.hasData) {
-                          print("object");
                           print("${snapshot.data!.docs}");
                           return SizedBox(
                             width: double.infinity,
@@ -66,18 +50,21 @@ class CommunityDetails extends StatelessWidget {
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {
                                   return ListTile(
-                                    subtitle: Text(
-                                        "${snapshot.data!.docs[index]["description"]}"),
+                                    subtitle: Expanded(
+                                      child: Text(
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                        "${snapshot.data!.docs[index]["description"]}",
+                                      ),
+                                    ),
                                   );
                                 }),
                           );
                         } else if (snapshot.hasError) {
-                          print("object2");
                           return Center(
                             child: Text("${snapshot.hasError.toString()}"),
                           );
                         } else {
-                          print("object3");
                           return Center(
                             child: Text("No Data Found"),
                           );
