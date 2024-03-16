@@ -3,7 +3,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 class ChatView extends StatefulWidget {
-  const ChatView({super.key});
+  final String username;
+  const ChatView({super.key, required this.username});
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -18,10 +19,13 @@ class _ChatViewState extends State<ChatView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-            onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
-        title: const Text(
-          'User name',
-          style: TextStyle(fontWeight: FontWeight.bold),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
+        title: Text(
+          widget.username,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         elevation: 0,
@@ -31,7 +35,7 @@ class _ChatViewState extends State<ChatView> {
         child: Chat(
             messages: messages,
             onSendPressed: (a) {},
-            user: const types.User(id: 'jrnvbuogrb'),
+            user: types.User(id: widget.username),
             theme: DefaultChatTheme(
               inputContainerDecoration: BoxDecoration(
                   border: Border.all(width: 0.5),

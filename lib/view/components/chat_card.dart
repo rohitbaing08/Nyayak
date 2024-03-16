@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:nyayak/model/lawyer_model.dart';
-import 'package:nyayak/view/screens/lawyar_profile.dart';
+import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/view/screens/chat/chat_view.dart';
 
-class SearchCard extends StatelessWidget {
-  final LawyerModel lawyer;
-  const SearchCard({super.key, r, required this.lawyer});
+class ChatCard extends StatelessWidget {
+  final String name;
+
+  const ChatCard({
+    super.key,
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +17,9 @@ class SearchCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => LawyerProfile(
-                    lawyerName: lawyer.name,
-                    experience: lawyer.experience,
-                    location: lawyer.location)));
+                builder: (context) => ChatView(
+                      username: name,
+                    )));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -24,12 +27,7 @@ class SearchCard extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: const Color(0xFF0F2F5),
-            border: Border.all(
-              color: Colors.black.withOpacity(0.4),
-              // Set the color of the border
-              width: 2, // Set the width of the border
-            ),
+            color: LightAppColors().secondaryColor.withOpacity(.1),
           ),
           child: Row(
             children: [
@@ -47,14 +45,12 @@ class SearchCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      lawyer.name,
+                      name,
                       style: const TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
-                    Text(lawyer.provider),
                   ],
                 ),
               )

@@ -65,7 +65,7 @@ class _SearchViewState extends State<SearchView> {
                 height: 20,
               ),
               SizedBox(
-                height: 500,
+                height: MediaQuery.of(context).size.height * .75,
                 width: double.infinity,
                 child: FutureBuilder(
                   future: value.fetchLawyers(),
@@ -78,8 +78,7 @@ class _SearchViewState extends State<SearchView> {
                         itemCount: value.displayList.length,
                         itemBuilder: (context, index) {
                           return SearchCard(
-                            name: value.displayList[index].name,
-                            provider: value.displayList[index].provider,
+                            lawyer: value.displayList[index],
                           );
                         },
                       );

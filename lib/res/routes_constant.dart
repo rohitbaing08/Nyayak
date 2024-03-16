@@ -4,9 +4,9 @@ import 'package:nyayak/view/screens/auth/login_view.dart';
 import 'package:nyayak/view/screens/auth/provider_form_view.dart';
 import 'package:nyayak/view/screens/auth/register_view.dart';
 import 'package:nyayak/view/screens/bottom_nav.dart';
+import 'package:nyayak/view/screens/chat/chat_mainpage.dart';
 import 'package:nyayak/view/screens/community/add_post_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
-import 'package:nyayak/view/screens/lawyar_profile.dart';
 import 'package:nyayak/view/screens/splash_view.dart';
 
 GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
@@ -21,14 +21,14 @@ GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
     builder: (context, state) => const BottomNavBar(),
   ),
   GoRoute(
+    name: 'chat',
+    path: '/chat',
+    builder: (context, state) => const ChatMainView(),
+  ),
+  GoRoute(
     name: 'splash',
     path: '/splash',
     builder: (context, state) => const SplashView(),
-  ),
-  GoRoute(
-    name: 'lawyer-profile',
-    path: '/lawyer-profile',
-    builder: (context, state) => const LawyerProfile(),
   ),
   GoRoute(
     name: 'login',

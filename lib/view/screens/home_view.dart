@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
+import 'package:nyayak/res/routes_constant.dart';
 import 'package:nyayak/view/components/top_lawyers_card.dart';
 import 'package:nyayak/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +30,25 @@ class _HomeViewState extends State<HomeView> {
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  "Hey " + user['name'] + '👋',
+                  '${"Hey " + user['name']}👋',
                   style: const TextStyle(
                       fontSize: 26, fontWeight: FontWeight.bold),
                 ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: IconButton(
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+                          router.push('/chat');
+                        },
+                        icon: const Icon(
+                          Icons.message_outlined,
+                          color: Colors.black,
+                          size: 40,
+                        )),
+                  )
+                ],
               ),
               body: SingleChildScrollView(
                 child: Padding(
@@ -62,7 +78,9 @@ class _HomeViewState extends State<HomeView> {
                               width: 150,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors().secondaryColor),
+                                  color: LightAppColors()
+                                      .secondaryColor
+                                      .withOpacity(.4)),
                             ),
                             Container(
                               margin: const EdgeInsets.only(right: 10),
@@ -70,7 +88,9 @@ class _HomeViewState extends State<HomeView> {
                               width: 150,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors().secondaryColor),
+                                  color: LightAppColors()
+                                      .secondaryColor
+                                      .withOpacity(.4)),
                             ),
                             Container(
                               margin: const EdgeInsets.only(right: 10),
@@ -78,14 +98,18 @@ class _HomeViewState extends State<HomeView> {
                               width: 150,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors().secondaryColor),
+                                  color: LightAppColors()
+                                      .secondaryColor
+                                      .withOpacity(.4)),
                             ),
                             Container(
                               height: 200,
                               width: 150,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: LightAppColors().secondaryColor),
+                                  color: LightAppColors()
+                                      .secondaryColor
+                                      .withOpacity(.4)),
                             )
                           ],
                         ),
@@ -100,25 +124,36 @@ class _HomeViewState extends State<HomeView> {
                       const SizedBox(
                         height: 15,
                       ),
-                      SizedBox(
-                        height: 70,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: const [
-                            TopLawyerCard(
-                              name: 'Rohit Baing',
-                              image: 'assets/Images/lawyer2.png',
-                            ),
-                            TopLawyerCard(
-                              name: 'Sneha Dubey',
-                              image: 'assets/Images/lawyer1.png',
-                            ),
-                            TopLawyerCard(
-                              name: 'Rohit Baing',
-                              image: 'assets/Images/lawyer2.png',
-                            )
-                          ],
-                        ),
+                      FutureBuilder(
+                        future: value.fetchLawyers(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox(height: 70);
+                          } else {
+                            var lawyers = snapshot.data;
+                            return SizedBox(
+                              height: 70,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  TopLawyerCard(
+                                    lawyer: lawyers[0],
+                                    image: 'assets/Images/lawyer2.png',
+                                  ),
+                                  TopLawyerCard(
+                                    lawyer: lawyers[1],
+                                    image: 'assets/Images/profilepic.jpeg',
+                                  ),
+                                  TopLawyerCard(
+                                    lawyer: lawyers[2],
+                                    image: 'assets/Images/profilepic.jpeg',
+                                  )
+                                ],
+                              ),
+                            );
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 20,
@@ -130,25 +165,36 @@ class _HomeViewState extends State<HomeView> {
                       const SizedBox(
                         height: 15,
                       ),
-                      SizedBox(
-                        height: 70,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: const [
-                            TopLawyerCard(
-                              name: 'Rohit',
-                              image: 'assets/Images/lawyer1.png',
-                            ),
-                            TopLawyerCard(
-                              name: 'Keyur',
-                              image: 'assets/Images/lawyer2.png',
-                            ),
-                            TopLawyerCard(
-                              name: 'Sneha Dubey',
-                              image: 'assets/Images/lawyer1.png',
-                            )
-                          ],
-                        ),
+                      FutureBuilder(
+                        future: value.fetchLawyers(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox(height: 70);
+                          } else {
+                            var lawyers = snapshot.data;
+                            return SizedBox(
+                              height: 70,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  TopLawyerCard(
+                                    lawyer: lawyers[3],
+                                    image: 'assets/Images/lawyer1.png',
+                                  ),
+                                  TopLawyerCard(
+                                    lawyer: lawyers[4],
+                                    image: 'assets/Images/profilepic.jpeg',
+                                  ),
+                                  TopLawyerCard(
+                                    lawyer: lawyers[5],
+                                    image: 'assets/Images/lawyer2.png',
+                                  )
+                                ],
+                              ),
+                            );
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 20,
