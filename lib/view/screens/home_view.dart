@@ -30,7 +30,7 @@ class _HomeViewState extends State<HomeView> {
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  '${"Hey " + user['name']}👋',
+                  'Hey ${user['name']}👋',
                   style: const TextStyle(
                       fontSize: 26, fontWeight: FontWeight.bold),
                 ),
