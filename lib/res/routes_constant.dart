@@ -9,7 +9,7 @@ import 'package:nyayak/view/screens/community/add_post_view.dart';
 import 'package:nyayak/view/screens/community/community_view.dart';
 import 'package:nyayak/view/screens/splash_view.dart';
 
-GoRouter router = GoRouter(initialLocation: '/initial-auth', routes: [
+GoRouter router = GoRouter(initialLocation: '/splash', routes: [
   GoRoute(
     name: 'bottom-nav',
     path: '/',
