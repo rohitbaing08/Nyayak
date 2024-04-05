@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nyayak/model/lawyer_model.dart';
 import 'package:nyayak/model/user_model.dart';
 import 'package:nyayak/res/routes_constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthViewModel extends ChangeNotifier {
   bool loginFlag = false;
@@ -31,6 +32,11 @@ class AuthViewModel extends ChangeNotifier {
         experience: '',
         location: '',
         licenseNo: '');
+  }
+
+  Future<void> saveLoginState(bool isLoggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', isLoggedIn);
   }
 
   registerLawyer(
@@ -65,7 +71,10 @@ class AuthViewModel extends ChangeNotifier {
         FirebaseFirestore.instance
             .collection('lawyer')
             .add(dataToSave.toJson())
-            .then((value) => router.go('/'));
+            .then((value) async {
+          await saveLoginState(true);
+          router.go('/');
+        });
       });
       registerLawyerFlag = true;
       notifyListeners();
@@ -93,7 +102,10 @@ class AuthViewModel extends ChangeNotifier {
         FirebaseFirestore.instance
             .collection('user')
             .add(dataToSave.toJson())
-            .then((value) => router.go('/'));
+            .then((value) async {
+          await saveLoginState(true);
+          router.go('/');
+        });
       });
       registerClientFlag = true;
       notifyListeners();
@@ -108,6 +120,7 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      await saveLoginState(true);
       loginFlag = false;
       notifyListeners();
       router.go('/');
@@ -119,6 +132,16 @@ class AuthViewModel extends ChangeNotifier {
       } else {
         print(e.message);
       }
+    }
+  }
+
+  logOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      await saveLoginState(false);
+      router.go('/initial-auth');
+    } catch (e) {
+      print(e);
     }
   }
 }

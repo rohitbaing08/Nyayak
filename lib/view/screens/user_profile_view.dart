@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
-import 'package:nyayak/res/routes_constant.dart';
+import 'package:nyayak/view_model/auth_viewmodel.dart';
 import 'package:nyayak/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +21,17 @@ class _ProfileViewState extends State<ProfileView> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 10.0),
-              child: IconButton(
-                  onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                    router.go('/initial-auth');
-                  },
-                  icon: const Icon(
-                    Icons.logout_outlined,
-                    color: Colors.black,
-                    size: 40,
-                  )),
+              child: Consumer<AuthViewModel>(
+                builder: (context, val, child) => IconButton(
+                    onPressed: () {
+                      val.logOut();
+                    },
+                    icon: const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.black,
+                      size: 40,
+                    )),
+              ),
             )
           ],
         ),
