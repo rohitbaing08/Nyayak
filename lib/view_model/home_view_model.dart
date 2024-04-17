@@ -6,7 +6,6 @@ import 'package:nyayak/model/lawyer_model.dart';
 class HomeViewModel extends ChangeNotifier {
   bool flag = true;
   late var userData;
-  late User? currentUser;
   List mainList = [];
   List displayList = [];
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -63,7 +62,8 @@ class HomeViewModel extends ChangeNotifier {
 
     if (usersdocSnapshot.docs.isNotEmpty) {
       final userDoc = usersdocSnapshot.docs.first;
-      userData = userDoc.data(); // Contains user data
+      userData = userDoc.data();
+      // Contains user data
       return userData;
     } else {
       final userDoc = lawyerdocSnapshot.docs.first;

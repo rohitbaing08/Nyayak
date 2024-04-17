@@ -26,11 +26,11 @@ class _HomeViewState extends State<HomeView> {
               body: Center(child: CircularProgressIndicator()),
             );
           } else {
-            var user = snapshot.data;
+            value.userData = snapshot.data;
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'Hey ${user['name']}👋',
+                  'Hey ${value.userData['name'].toString().split(' ')[0]}👋',
                   style: const TextStyle(
                       fontSize: 26, fontWeight: FontWeight.bold),
                 ),

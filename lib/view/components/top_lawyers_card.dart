@@ -16,9 +16,8 @@ class TopLawyerCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => LawyerProfile(
-                    lawyerName: lawyer.name,
-                    experience: lawyer.experience,
-                    location: lawyer.location)));
+                      lawyer: lawyer,
+                    )));
       },
       child: Container(
         margin: const EdgeInsets.only(right: 10),

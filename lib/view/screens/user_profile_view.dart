@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/view_model/auth_viewmodel.dart';
 import 'package:nyayak/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
@@ -64,27 +63,6 @@ class _ProfileViewState extends State<ProfileView> {
                             child: Image.asset(
                               'assets/Images/profilepic.jpeg',
                               fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Add your onPressed logic here
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: LightAppColors().secondaryColor,
-                              ),
-                              child: const Icon(
-                                Icons.edit,
-                                size: 18,
-                                color: Colors.black,
-                              ),
                             ),
                           ),
                         ),
