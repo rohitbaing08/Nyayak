@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyayak/res/colors.dart';
 
+// ignore: must_be_immutable
 class CustomTextfield extends StatelessWidget {
   final TextEditingController controller;
   TextInputType keyboardType;
