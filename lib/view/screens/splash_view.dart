@@ -31,17 +31,14 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color.fromRGBO(215, 217, 220, 1),
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(215, 217, 220, 1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'N',
-              style: TextStyle(fontSize: 120),
-            ),
-            Text(
+            Image.asset('assets/Images/splash.png'),
+            const Text(
               'NYAYAK',
               style: TextStyle(fontSize: 30),
             )

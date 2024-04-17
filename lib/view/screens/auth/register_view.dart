@@ -8,6 +8,7 @@ import 'package:nyayak/view/components/textfield.dart';
 import 'package:nyayak/view_model/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class RegisterView extends StatefulWidget {
   String? isClient;
   RegisterView({super.key, this.isClient = 'client'});
