@@ -14,9 +14,8 @@ class SearchCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => LawyerProfile(
-                    lawyerName: lawyer.name,
-                    experience: lawyer.experience,
-                    location: lawyer.location)));
+                      lawyer: lawyer,
+                    )));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),

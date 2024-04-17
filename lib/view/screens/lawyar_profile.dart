@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:nyayak/model/lawyer_model.dart';
 import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/view/screens/chat/chat_view.dart';
+import 'package:nyayak/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 class LawyerProfile extends StatefulWidget {
-  final String lawyerName;
-  final String experience;
-  final String location;
-  const LawyerProfile(
-      {super.key,
-      required this.lawyerName,
-      required this.experience,
-      required this.location});
+  final LawyerModel lawyer;
+  const LawyerProfile({
+    super.key,
+    required this.lawyer,
+  });
 
   @override
   State<LawyerProfile> createState() => _LawyerProfileState();
@@ -19,6 +19,15 @@ class LawyerProfile extends StatefulWidget {
 class _LawyerProfileState extends State<LawyerProfile> {
   @override
   Widget build(BuildContext context) {
+    String createChatRoom(String user1, String user2) {
+      if (user1[0].toLowerCase().codeUnits[0] >
+          user2[0].toLowerCase().codeUnits[0]) {
+        return "$user1$user2";
+      } else {
+        return "$user2$user1";
+      }
+    }
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: LightAppColors().backgroundColor,
@@ -34,19 +43,25 @@ class _LawyerProfileState extends State<LawyerProfile> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 10.0),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ChatView(username: widget.lawyerName)));
-                  },
-                  icon: const Icon(
-                    Icons.message_outlined,
-                    color: Colors.black,
-                    size: 40,
-                  )),
+              child: Consumer<HomeViewModel>(
+                builder: (context, value, child) => IconButton(
+                    onPressed: () {
+                      String roomId = createChatRoom(
+                          value.userData['id'], widget.lawyer.id);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatView(
+                                    lawyer: widget.lawyer,
+                                    chatRoomId: roomId,
+                                  )));
+                    },
+                    icon: const Icon(
+                      Icons.message_outlined,
+                      color: Colors.black,
+                      size: 40,
+                    )),
+              ),
             )
           ],
           title: const Text(
@@ -75,7 +90,7 @@ class _LawyerProfileState extends State<LawyerProfile> {
               ),
               const SizedBox(height: 7),
               Text(
-                widget.lawyerName,
+                widget.lawyer.name,
                 style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -91,7 +106,7 @@ class _LawyerProfileState extends State<LawyerProfile> {
                   ),
                   const SizedBox(width: 2),
                   Text(
-                    widget.location,
+                    widget.lawyer.location,
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -158,7 +173,7 @@ class _LawyerProfileState extends State<LawyerProfile> {
                                 letterSpacing: 0.4),
                           ),
                           Text(
-                            '${widget.experience} years',
+                            '${widget.lawyer.experience} years',
                             style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
