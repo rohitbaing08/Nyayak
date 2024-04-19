@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nyayak/model/lawyer_model.dart';
+import 'package:nyayak/res/colors.dart';
 import 'package:nyayak/view/components/chat_bubble.dart';
-import 'package:nyayak/view/components/textfield.dart';
 import 'package:nyayak/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatView extends StatefulWidget {
   final LawyerModel lawyer;
@@ -19,12 +24,63 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
+    File? imageFile;
+
+    Future uploadImage(String sendBy) async {
+      String fileName = const Uuid().v1();
+      int status = 1;
+
+      await FirebaseFirestore.instance
+          .collection('chatroom')
+          .doc(widget.chatRoomId)
+          .collection('chats')
+          .doc(fileName)
+          .set({
+        'sendBy': sendBy,
+        'message': '',
+        'type': 'img',
+        'time': Timestamp.now()
+      });
+
+      var ref =
+          FirebaseStorage.instance.ref().child('images').child('$fileName.jpg');
+      var uploadTask = await ref.putFile(imageFile!).catchError((e) async {
+        await FirebaseFirestore.instance
+            .collection('chatroom')
+            .doc(widget.chatRoomId)
+            .collection('chats')
+            .doc(fileName)
+            .delete();
+        status = 0;
+      });
+      if (status == 1) {
+        String imageUrl = await uploadTask.ref.getDownloadURL();
+        await FirebaseFirestore.instance
+            .collection('chatroom')
+            .doc(widget.chatRoomId)
+            .collection('chats')
+            .doc(fileName)
+            .update({'message': imageUrl});
+        print(imageUrl);
+      }
+    }
+
+    Future getImage(String sendBy) async {
+      ImagePicker picker = ImagePicker();
+      await picker.pickImage(source: ImageSource.gallery).then((value) {
+        if (value != null) {
+          imageFile = File(value.path);
+          uploadImage(sendBy);
+        }
+      });
+    }
 
     void onSendMessage(String sendBy) async {
       if (messageController.text.isNotEmpty) {
         Map<String, dynamic> message = {
           'sendBy': sendBy,
           'message': messageController.text,
+          'type': 'text',
           'time': Timestamp.now()
         };
 
@@ -83,13 +139,17 @@ class _ChatViewState extends State<ChatView> {
                                   ...List.generate(
                                       snapshot.data!.docs.length,
                                       (index) => ChatBubble(
-                                          message: snapshot.data!.docs[index]
-                                              ['message'],
-                                          time:
-                                              '${snapshot.data!.docs[index]['time'].toDate().hour.toString().padLeft(2, '0')}:${snapshot.data!.docs[index]['time'].toDate().minute.toString().padLeft(2, '0')}',
-                                          sender: snapshot.data!.docs[index]
-                                                  ['sendBy'] ==
-                                              value.userData['name']))
+                                            context: context,
+                                            message: snapshot.data!.docs[index]
+                                                ['message'],
+                                            time:
+                                                '${snapshot.data!.docs[index]['time'].toDate().hour.toString().padLeft(2, '0')}:${snapshot.data!.docs[index]['time'].toDate().minute.toString().padLeft(2, '0')}',
+                                            sender: snapshot.data!.docs[index]
+                                                    ['sendBy'] ==
+                                                value.userData['name'],
+                                            type: snapshot.data!.docs[index]
+                                                ['type'],
+                                          ))
                                 ],
                               ));
                             } else {
@@ -113,19 +173,34 @@ class _ChatViewState extends State<ChatView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: CustomTextfield(
-                                  label: 'Enter message...',
-                                  hintText: '',
-                                  controller: messageController),
-                            ),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: TextFormField(
+                                  controller: messageController,
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                        onPressed: () =>
+                                            getImage(value.userData['name']),
+                                        icon: const Icon(Icons.image)),
+                                    label: const Text(
+                                      'Enter message...',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20.0)),
+                                      borderSide: BorderSide(
+                                          color: LightAppColors().seedColor,
+                                          width: 0.5),
+                                    ),
+                                  ),
+                                )),
                             IconButton(
                                 onPressed: () {
                                   onSendMessage(value.userData['name']);
                                 },
                                 icon: const Icon(
                                   Icons.send,
-                                  size: 40,
+                                  size: 30,
                                 ))
                           ],
                         ),
