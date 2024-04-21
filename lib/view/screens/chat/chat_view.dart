@@ -26,9 +26,16 @@ class _ChatViewState extends State<ChatView> {
     TextEditingController messageController = TextEditingController();
     File? imageFile;
 
-    Future uploadImage(String sendBy) async {
+    Future uploadImage(String sendBy, String senderId) async {
       String fileName = const Uuid().v1();
       int status = 1;
+
+      await FirebaseFirestore.instance
+          .collection('chatroom')
+          .doc(widget.chatRoomId)
+          .set({
+        'users': [widget.lawyer.id, senderId]
+      });
 
       await FirebaseFirestore.instance
           .collection('chatroom')
@@ -65,18 +72,25 @@ class _ChatViewState extends State<ChatView> {
       }
     }
 
-    Future getImage(String sendBy) async {
+    Future getImage(String sendBy, String senderId) async {
       ImagePicker picker = ImagePicker();
       await picker.pickImage(source: ImageSource.gallery).then((value) {
         if (value != null) {
           imageFile = File(value.path);
-          uploadImage(sendBy);
+          uploadImage(sendBy, senderId);
         }
       });
     }
 
-    void onSendMessage(String sendBy) async {
+    void onSendMessage(String sendBy, String senderId) async {
       if (messageController.text.isNotEmpty) {
+        await FirebaseFirestore.instance
+            .collection('chatroom')
+            .doc(widget.chatRoomId)
+            .set({
+          'users': [widget.lawyer.id, senderId]
+        });
+
         Map<String, dynamic> message = {
           'sendBy': sendBy,
           'message': messageController.text,
@@ -178,8 +192,9 @@ class _ChatViewState extends State<ChatView> {
                                   controller: messageController,
                                   decoration: InputDecoration(
                                     suffixIcon: IconButton(
-                                        onPressed: () =>
-                                            getImage(value.userData['name']),
+                                        onPressed: () => getImage(
+                                            value.userData['name'],
+                                            value.userData['id']),
                                         icon: const Icon(Icons.image)),
                                     label: const Text(
                                       'Enter message...',
@@ -196,7 +211,8 @@ class _ChatViewState extends State<ChatView> {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  onSendMessage(value.userData['name']);
+                                  onSendMessage(value.userData['name'],
+                                      value.userData['id']);
                                 },
                                 icon: const Icon(
                                   Icons.send,

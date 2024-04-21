@@ -27,25 +27,19 @@ class ChatMainView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: FutureBuilder(
-              future: value.fetchLawyers(),
+              future: value.fetchChatUsers(value.userData['id']),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Expanded(
-                        child: Center(child: CircularProgressIndicator())),
-                  );
+                  return const Expanded(
+                      child: Center(child: CircularProgressIndicator()));
                 } else {
-                  List data = snapshot.data
-                      .where((user) => user.id != value.userData['id'])
-                      .toList();
                   return Column(
                     children: [
                       const SizedBox(
                         height: 20,
                       ),
-                      ...List.generate(
-                          data.length, (index) => ChatCard(user: data[index]))
+                      ...List.generate(snapshot.data.length,
+                          (index) => ChatCard(user: snapshot.data[index]))
                     ],
                   );
                 }
