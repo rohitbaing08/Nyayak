@@ -50,6 +50,37 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  Future<dynamic> fetchChatUsers(var uid) async {
+    var docsId = [];
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('chatroom').get();
+      querySnapshot.docs.forEach((element) {
+        if (element['users'].contains(uid)) {
+          for (var ele in element['users']) {
+            if (ele != uid) {
+              docsId.add(ele);
+            }
+          }
+        }
+      });
+
+      QuerySnapshot querySnapshot1 = await FirebaseFirestore.instance
+          .collection('lawyer')
+          .where('id', whereIn: docsId)
+          .get();
+      List<LawyerModel> lawyers = querySnapshot1.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return LawyerModel.fromJson(data);
+      }).toList();
+
+      return lawyers;
+    } catch (e) {
+      print('Error fetching lawyers: $e');
+      return []; // Return an empty list if there's an error
+    }
+  }
+
   Future<dynamic> fetchUserDetails(String? email) async {
     final CollectionReference users =
         FirebaseFirestore.instance.collection('user');
